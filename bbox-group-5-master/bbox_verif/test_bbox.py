@@ -101,7 +101,7 @@ async def TB(dut, XLEN, instr, instr_name, single_opd, num_of_tests):
     for i in range (num_of_tests):
         rs1 = random.randint(0,(2**XLEN)-1) 
         rs2 = random.randint(0,(2**XLEN)-1)
-        # rs1 = 5
+        # rs1 = 17
         # rs2 = 5
         rm_result = bbox_rm(instr, rs1, rs2, XLEN)
     
@@ -131,26 +131,28 @@ if base == 'RV32':
 elif base == 'RV64':
     tf.add_option('XLEN', [64])
     tf.add_option('num_of_tests',[1])
-    for keys in specs:
-        
-        encoding = specs.get(keys)      # returns the value based on the key given to .get()
-        print(encoding)
-        if(encoding[:7] == '0100000'):  # chcking if encoding belongs to zbb 
-            print(encoding[17:20])
-            if(encoding[17:20] == '111'):   # slicing to get the 12-14 bits as per encoding 
-                #print(encoding[12:14])
-                tf.add_option(('instr','instr_name','single_opd'), [(1,'addn',0)]) # pass andn fvalues
-                
-                           
-            # elif(encoding[17:20] == '110'):
-            #     tf.add_option(('instr','instr_name','single_opd'), [(2,'orn',0)])   # pass orn values
-            #     #tf.add_option('num_of_tests',[1])
-            #     # tf.generate_tests()
-            # elif(encoding[17:20] == '100'):
-            #     tf.add_option(('instr','instr_name','single_opd'), [(3,'xnor',0)])   # pass xnor values
-            #     #tf.add_option('num_of_tests',[1])
-            #     # tf.generate_tests()
-            tf.generate_tests() 
+    i = 0
+    if(0):
+        for keys in specs:
+            
+            encoding = specs.get(keys)      # returns the value based on the key given to .get()
+            print(encoding)
+            if(encoding[:7] == '0100000'):  # chcking if encoding belongs to zbb 
+                print(encoding[17:20])
+                if(encoding[17:20] == '111'):   # slicing to get the 12-14 bits as per encoding 
+                    tf.add_option(('instr','instr_name','single_opd'), [(1,'addn',0)]) # pass andn fvalues
+                    tf.generate_tests(postfix=i) # Text string to append to end of test_function name when naming generated test cases
+                            
+                elif(encoding[17:20] == '110'):
+                    tf.add_option(('instr','instr_name','single_opd'), [(2,'orn',0)])   # pass orn values
+                    tf.generate_tests(postfix=i)
+            
+                elif(encoding[17:20] == '100'):
+                    tf.add_option(('instr','instr_name','single_opd'), [(3,'xnor',0)])   # pass xnor values
+                    tf.generate_tests(postfix=i)
+            i+=1
+    tf.add_option(('instr','instr_name','single_opd'), [(4, 'cpop', 1)])   
+    tf.generate_tests()    
 
 
 

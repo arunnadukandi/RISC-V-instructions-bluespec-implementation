@@ -32,6 +32,7 @@ import bbox_types :: *;
 */
 function BBoxOutput fn_compute(BBoxInput inp);
   Bit#(XLEN) result;
+  //Integer int_result;
   Bool valid;
   case(inp.instr) matches
     `ANDN: begin
@@ -44,6 +45,10 @@ function BBoxOutput fn_compute(BBoxInput inp);
     end
     `XNOR: begin
       result = fn_xnor(inp.rs1,inp.rs2);
+      valid = True;
+    end
+    `CPOP: begin
+      result = fn_cpop(inp.rs1);
       valid = True;
     end
     default: begin

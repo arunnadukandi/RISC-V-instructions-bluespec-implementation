@@ -33,6 +33,27 @@ def bbox_rm(instr, rs1, rs2, XLEN):
         #print(bin(res), bin(rs1) , bin(~rs2))
         valid = '1'
 
+    elif instr == 4:
+        bitcount = 0
+        print("type ",type(rs1))
+        #bin_rs1 = bin(rs1)
+        bin_rs1 = ('{:64b}'.format(rs1)) # rs1 of type int , converting it to 64 bit binary
+        # print(type(bin_rs1))
+        # print(len(bin_rs1))
+        # print("bin_rs1",bin_rs1)
+        # print(bin_rs1[-1])
+        for i in reversed(range(XLEN)):
+            print(bin_rs1[i])
+            if(bin_rs1[i] == '1'):
+                # print(bin_rs1[i])
+                bitcount+=1
+            elif(bin_rs1[i] == " "):
+                break
+        res = bitcount  
+        valid = '1'
+        print("bitcount",bitcount)
+        print("res ",type(res))
+
     ## logic for all other instr ends
     else:
         res = 0
@@ -42,6 +63,6 @@ def bbox_rm(instr, rs1, rs2, XLEN):
         result = '{:032b}'.format(res)
     elif XLEN == 64:
         result = '{:064b}'.format(res)
-    
+        print("R type",type(result))
     return valid+result
 

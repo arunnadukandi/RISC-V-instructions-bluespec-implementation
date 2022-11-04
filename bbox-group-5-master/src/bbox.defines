@@ -11,6 +11,7 @@ Details: Has the macros used for instruction comparison
 // Add instruction macors here which can be used in the 
 // case statement for understandability and easy modifications.
 
-`define ANDN 'b1
-`define ORN 'b10
-`define XNOR 'b11
+`define ANDN 'b001
+`define ORN 'b0010
+`define XNOR 'b0011
+`define CPOP 'b0100 
